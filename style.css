@@ -17,11 +17,12 @@ body {
 /* 3. Style the page heading */
 header {
   text-align: center;
-  margin-bottom: 30;
+  margin-bottom: 30px;
 }
 
 header h1 {
-  color: #666;
+  color: #3339ec;
+  margin-bottom: 8px;
 }
 
 header p {
@@ -40,7 +41,7 @@ main {
   padding: 24px;
   margin-bottom: 24px;
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
 }
 h2 {
   margin-bottom: 16px;
@@ -58,7 +59,8 @@ label {
 /* 7. Style the input fields */
 
 input {
-  width: 100px;
+  display: block;
+  width: 100%;
   padding: 12px;
   border: 1px solid #d1d5db;
   border-radius: 6px;
@@ -66,7 +68,7 @@ input {
 }
 
 input:focus {
-  outline: 2px solid #3330ec;
+  outline: 2px solid #3339ec;
   border-color: #3330ec;
 }
 /* 8. Style the Add Task button */

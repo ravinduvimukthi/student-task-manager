@@ -3,6 +3,8 @@ const taskList = document.getElementById("tasks");
 
 const tasks = [];
 
+let currentFilter = "all";
+
 taskForm.addEventListener("submit", function (event) {
   event.preventDefault();
 
@@ -34,7 +36,26 @@ function displayTasks() {
 
   document.getElementById("totalTask").textContent = tasks.length;
 
-  tasks.forEach(function (task, index) {
+  const filteredTasks = tasks
+    .map(function (task, index) {
+      return { task: task, index: index };
+    })
+    .filter(function (item) {
+      if (currentFilter === "pending") {
+        return !item.task.completed;
+      }
+
+      if (currentFilter === "completed") {
+        return item.task.completed;
+      }
+
+      return true;
+    });
+
+  filteredTasks.forEach(function (item) {
+    const task = item.task;
+    const index = item.index;
+
     const listItem = document.createElement("li");
 
     const taskText = document.createElement("span");
@@ -46,7 +67,6 @@ function displayTasks() {
     }
 
     const completeButton = document.createElement("button");
-
     completeButton.textContent = task.completed ? "Undo" : "Complete";
 
     completeButton.addEventListener("click", function () {
@@ -69,3 +89,12 @@ function displayTasks() {
     taskList.appendChild(listItem);
   });
 }
+
+const filterButtons = document.querySelectorAll("[data-filter]");
+
+filterButtons.forEach(function (button) {
+  button.addEventListener("click", function () {
+    currentFilter = button.dataset.filter;
+    displayTasks();
+  });
+});

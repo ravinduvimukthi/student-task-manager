@@ -1,0 +1,109 @@
+/* 1. Reset default browser spacing */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* 2. Style the entire page */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f6fb;
+  color: #222;
+  line-height: 1.6;
+  padding: 30px 20px;
+}
+
+/* 3. Style the page heading */
+header {
+  text-align: center;
+  margin-bottom: 30;
+}
+
+header h1 {
+  color: #666;
+}
+
+header p {
+  color: #666;
+}
+
+/* 4. Style the main content */
+main {
+  max-width: 700px;
+  margin: 0 auto;
+}
+/* 5. Style both sections */
+.task-form,
+.task-list {
+  background-color: #fff;
+  padding: 24px;
+  margin-bottom: 24px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0);
+}
+h2 {
+  margin-bottom: 16px;
+}
+
+/* 6. Style form labels */
+
+label {
+  display: block;
+  margin-top: 12px;
+  margin-bottom: 6px;
+  font-weight: bold;
+}
+
+/* 7. Style the input fields */
+
+input {
+  width: 100px;
+  padding: 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 16px;
+}
+
+input:focus {
+  outline: 2px solid #3330ec;
+  border-color: #3330ec;
+}
+/* 8. Style the Add Task button */
+
+button {
+  margin-top: 18px;
+  padding: 12px 20px;
+  background-color: #3330ec;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+/* Change button appearance on hover */
+
+button:hover {
+  background-color: #2529bd;
+}
+
+/* 9. Style the task list */
+#tasks {
+  margin-top: 16px;
+  padding-left: 20px;
+}
+
+/* 10. Improve layout on small screens */
+@media (max-width: 480px) {
+  body {
+    padding: 20px 12px;
+  }
+  .task-form,
+  .task-list {
+    padding: 18px;
+  }
+  header h1 {
+    font-size: 26px;
+  }
+}

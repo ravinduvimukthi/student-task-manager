@@ -1,7 +1,7 @@
 const taskForm = document.getElementById("taskForm");
 const taskList = document.getElementById("tasks");
 
-const tasks = [];
+let tasks = JSON.parse(localStorage.getItem("studentTasks")) || [];
 
 let currentFilter = "all";
 
@@ -25,11 +25,15 @@ taskForm.addEventListener("submit", function (event) {
   };
 
   tasks.push(task);
-
+  saveTasks();
   displayTasks();
 
   taskForm.reset();
 });
+
+function saveTasks() {
+  localStorage.setItem("studentTasks", JSON.stringify(tasks));
+}
 
 function displayTasks() {
   taskList.innerHTML = "";
@@ -71,6 +75,7 @@ function displayTasks() {
 
     completeButton.addEventListener("click", function () {
       task.completed = !task.completed;
+      saveTasks();
       displayTasks();
     });
 
@@ -79,6 +84,7 @@ function displayTasks() {
 
     deleteButton.addEventListener("click", function () {
       tasks.splice(index, 1);
+      saveTasks();
       displayTasks();
     });
 

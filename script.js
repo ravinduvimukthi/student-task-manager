@@ -19,6 +19,7 @@ taskForm.addEventListener("submit", function (event) {
   const task = {
     name: taskName,
     deadline: deadline,
+    completed: false,
   };
 
   tasks.push(task);
@@ -33,10 +34,37 @@ function displayTasks() {
 
   document.getElementById("totalTask").textContent = tasks.length;
 
-  tasks.forEach(function (task) {
+  tasks.forEach(function (task, index) {
     const listItem = document.createElement("li");
 
-    listItem.textContent = task.name + " - Deadline: " + task.deadline;
+    const taskText = document.createElement("span");
+    taskText.textContent = task.name + " - Deadline: " + task.deadline;
+
+    if (task.completed) {
+      taskText.style.textDecoration = "line-through";
+      taskText.style.color = "gray";
+    }
+
+    const completeButton = document.createElement("button");
+
+    completeButton.textContent = task.completed ? "Undo" : "Complete";
+
+    completeButton.addEventListener("click", function () {
+      task.completed = !task.completed;
+      displayTasks();
+    });
+
+    const deleteButton = document.createElement("button");
+    deleteButton.textContent = "Delete";
+
+    deleteButton.addEventListener("click", function () {
+      tasks.splice(index, 1);
+      displayTasks();
+    });
+
+    listItem.appendChild(taskText);
+    listItem.appendChild(completeButton);
+    listItem.appendChild(deleteButton);
 
     taskList.appendChild(listItem);
   });

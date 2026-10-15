@@ -1,5 +1,6 @@
 const taskForm = document.getElementById("taskForm");
 const taskList = document.getElementById("tasks");
+const searchInput = document.getElementById("searchInput");
 
 let tasks = JSON.parse(localStorage.getItem("studentTasks")) || [];
 
@@ -40,20 +41,21 @@ function displayTasks() {
 
   document.getElementById("totalTask").textContent = tasks.length;
 
+  const searchText = searchInput.value.trim().toLowerCase();
+
   const filteredTasks = tasks
+
     .map(function (task, index) {
       return { task: task, index: index };
     })
     .filter(function (item) {
-      if (currentFilter === "pending") {
-        return !item.task.completed;
-      }
+      const matchesSearch = item.task.name.toLowerCase().includes(searchText);
 
-      if (currentFilter === "completed") {
-        return item.task.completed;
-      }
-
-      return true;
+      const matchesFilter =
+        currentFilter === "all" ||
+        (currentFilter === "pending" && !item.task.completed) ||
+        (currentFilter === "completed" && item.task.completed);
+      return matchesSearch && matchesFilter;
     });
 
   filteredTasks.forEach(function (item) {
@@ -104,3 +106,9 @@ filterButtons.forEach(function (button) {
     displayTasks();
   });
 });
+
+searchInput.addEventListener("input", function () {
+  displayTasks();
+});
+
+displayTasks();

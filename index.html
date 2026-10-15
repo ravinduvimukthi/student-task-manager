@@ -1,50 +1,84 @@
 <!DOCTYPE html>
-  <html lang="en">
-    <head>
-      <meta charset="UTF-8" />
-      <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-      <title>Student Task Manager</title>
-      <link rel="stylesheet" href="style.css">
-    </head>
-    <body>
-      <header>
-        <h1>Student Task Manager</h1>
-        <p>Organize your studies,one Task at a time.</p>
-      </header>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Student Task Manager</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Student Task Manager</h1>
+      <p>Organize your studies, one task at a time.</p>
+    </header>
 
-      <main>
-        <section class="task-form">
-          <h2>Add a New Task</h2>
-          <form id="taskForm">
-            <label for="taskInput">Task Name</label>
-            <input
-              type="text"
-              id="taskInput"
-              placeholder="Enter your assignment or study task"
-            />
-            <label for="taskDate">Deadline</label>
-            <input type="date" id="taskDate" required />
+    <main>
+      <section class="task-form">
+        <h2>Add a New Task</h2>
 
-            <button type="submit">Add Task</button>
-          </form>
-        </section>
+        <form id="taskForm">
+          <label for="taskInput">Task Name</label>
+          <input
+            type="text"
+            id="taskInput"
+            placeholder="Enter your assignment or study task"
+            required
+          />
 
-        <section class="task-list">
-          <h2>My Tasks</h2>
-          <p>Total Task: <span id="totalTask">0</span></p>
-          <div class="task-filters">
-            <input type="search" id="searchInput" placeholder="Serach tasks.." aria-label="Search tasks"/> 
-            <button type="button" data-filter="all">All Taks</button>
-            <button type="button" data-filter="pending">pending</button>
-            <button type="button" data-filter="completed">completed</button>
+          <label for="taskDate">Deadline</label>
+          <input type="date" id="taskDate" required />
 
+          <button type="submit">Add Task</button>
+        </form>
+      </section>
+
+      <!-- Progress dashboard -->
+      <section class="dashboard">
+        <div class="stat-card">
+          <h3>Total Tasks</h3>
+          <p id="totalTask">0</p>
+        </div>
+
+        <div class="stat-card">
+          <h3>Pending Tasks</h3>
+          <p id="pendingTask">0</p>
+        </div>
+
+        <div class="stat-card">
+          <h3>Completed Tasks</h3>
+          <p id="completedTask">0</p>
+        </div>
+
+        <div class="progress-card">
+          <h3>Completion Progress</h3>
+          <p id="completionPercentage">0%</p>
+          <div class="progress-track">
+            <div id="progressBar" class="progress-bar"></div>
           </div>
-          <ul id="tasks">
-            <!--javascript will dispaly task hear-->
-          </ul>
-        </section>
-      </main>
+        </div>
+      </section>
 
-      <script src="script.js"></script>
-    </body></html
-></DOCTYPE>
+      <section class="task-list">
+        <h2>My Tasks</h2>
+
+        <div class="task-filters">
+          <input
+            type="search"
+            id="searchInput"
+            placeholder="Search tasks..."
+            aria-label="Search tasks"
+          />
+          <button type="button" data-filter="all">All Tasks</button>
+          <button type="button" data-filter="pending">Pending</button>
+          <button type="button" data-filter="completed">Completed</button>
+        </div>
+
+        <ul id="tasks">
+          <!-- JavaScript displays tasks here -->
+        </ul>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>

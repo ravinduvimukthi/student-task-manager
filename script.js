@@ -68,7 +68,23 @@ function getDeadlineStatus(task) {
 function displayTasks() {
   taskList.innerHTML = "";
 
-  document.getElementById("totalTask").textContent = tasks.length;
+  const total = tasks.length;
+
+  const completed = tasks.filter(function (task) {
+    return task.completed;
+  }).length;
+
+  const pending = total - completed;
+
+  const percentage = total === 0 ? 0 : Math.round((completed / total) * 100);
+
+  document.getElementById("totalTask").textContent = total;
+  document.getElementById("pendingTask").textContent = pending;
+  document.getElementById("completedTask").textContent = completed;
+  document.getElementById("completionPercentage").textContent =
+    percentage + "%";
+
+  document.getElementById("progressBar").style.width = percentage + "%";
 
   const searchText = searchInput.value.trim().toLowerCase();
 

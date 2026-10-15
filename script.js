@@ -46,6 +46,24 @@ taskForm.addEventListener("submit", function (event) {
 function saveTasks() {
   localStorage.setItem("studentTasks", JSON.stringify(tasks));
 }
+function getDeadlineStatus(task) {
+  if (task.completed) {
+    return "Completed";
+  }
+  //get today's date in local time
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  //convert the task deadline into a local date
+  const deadline = new Date(task.deadline + "T00:00:00");
+  if (deadline < today) {
+    return "Overdue";
+  }
+  if (deadline.getTime() === today.getTime()) {
+    return "Due Today";
+  }
+  return "Upcoming";
+}
 
 function displayTasks() {
   taskList.innerHTML = "";
@@ -76,7 +94,9 @@ function displayTasks() {
     const listItem = document.createElement("li");
 
     const taskText = document.createElement("span");
-    taskText.textContent = task.name + " - Deadline: " + task.deadline;
+    const status = getDeadlineStatus(task);
+    taskText.textContent =
+      task.name + " - Deadline: " + task.deadline + " - " + status;
 
     if (task.completed) {
       taskText.style.textDecoration = "line-through";

@@ -72,6 +72,12 @@
           <button type="button" data-filter="pending">Pending</button>
           <button type="button" data-filter="completed">Completed</button>
         </div>
+        <label for="sortTasks">Sort tasks:</label>
+        <select id="sortTasks">
+          <option value="default">Default order</option>
+          <option value="deadline">Earlies deadline</option>
+          <option value="priority">Highest priority</option>
+        </select>
 
         <ul id="tasks">
           <!-- JavaScript displays tasks here -->

@@ -4,6 +4,7 @@ const searchInput = document.getElementById("searchInput");
 
 let tasks = JSON.parse(localStorage.getItem("studentTasks")) || [];
 
+let currentSort = "default";
 let currentFilter = "all";
 let editingIndex = null;
 
@@ -89,7 +90,6 @@ function displayTasks() {
   const searchText = searchInput.value.trim().toLowerCase();
 
   const filteredTasks = tasks
-
     .map(function (task, index) {
       return { task: task, index: index };
     })
@@ -100,7 +100,28 @@ function displayTasks() {
         currentFilter === "all" ||
         (currentFilter === "pending" && !item.task.completed) ||
         (currentFilter === "completed" && item.task.completed);
+
       return matchesSearch && matchesFilter;
+    })
+    .sort(function (a, b) {
+      if (currentSort === "deadline") {
+        return a.task.deadline.localeCompare(b.task.deadline);
+      }
+
+      if (currentSort === "priority") {
+        const priorityOrder = {
+          high: 1,
+          medium: 2,
+          low: 3,
+        };
+
+        const priorityA = priorityOrder[a.task.priority?.toLowerCase()] || 4;
+        const priorityB = priorityOrder[b.task.priority?.toLowerCase()] || 4;
+
+        return priorityA - priorityB;
+      }
+
+      return a.index - b.index;
     });
 
   filteredTasks.forEach(function (item) {
@@ -167,6 +188,13 @@ filterButtons.forEach(function (button) {
 });
 
 searchInput.addEventListener("input", function () {
+  displayTasks();
+});
+
+const sortTasks = document.getElementById("sortTasks");
+
+sortTasks.addEventListener("change", function () {
+  currentSort = sortTasks.value;
   displayTasks();
 });
 

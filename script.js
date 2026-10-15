@@ -5,6 +5,7 @@ const searchInput = document.getElementById("searchInput");
 let tasks = JSON.parse(localStorage.getItem("studentTasks")) || [];
 
 let currentFilter = "all";
+let editingIndex = null;
 
 taskForm.addEventListener("submit", function (event) {
   event.preventDefault();
@@ -25,11 +26,21 @@ taskForm.addEventListener("submit", function (event) {
     completed: false,
   };
 
-  tasks.push(task);
-  saveTasks();
-  displayTasks();
+  if (editingIndex === null) {
+    // Add a new task
+    tasks.push(task);
+  } else {
+    // Update an existing task
+    tasks[editingIndex].name = taskName;
+    tasks[editingIndex].deadline = deadline;
 
+    editingIndex = null;
+    taskForm.querySelector('[type="submit"]').textContent = "Add Task";
+  }
+
+  saveTasks();
   taskForm.reset();
+  displayTasks();
 });
 
 function saveTasks() {
@@ -81,6 +92,17 @@ function displayTasks() {
       displayTasks();
     });
 
+    const editButton = document.createElement("button");
+    editButton.textContent = "Edit";
+
+    editButton.addEventListener("click", function () {
+      document.getElementById("taskInput").value = task.name;
+      document.getElementById("taskDate").value = task.deadline;
+
+      editingIndex = index;
+      taskForm.querySelector('[type="submit"]').textContent = "Update Task";
+    });
+
     const deleteButton = document.createElement("button");
     deleteButton.textContent = "Delete";
 
@@ -91,6 +113,7 @@ function displayTasks() {
     });
 
     listItem.appendChild(taskText);
+    listItem.appendChild(editButton);
     listItem.appendChild(completeButton);
     listItem.appendChild(deleteButton);
 

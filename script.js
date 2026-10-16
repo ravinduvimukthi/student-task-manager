@@ -1,7 +1,7 @@
 const taskForm = document.getElementById("taskForm");
 const taskList = document.getElementById("tasks");
 const searchInput = document.getElementById("searchInput");
-
+const cancelEditButton = document.getElementById("cancelEdit");
 let tasks = [];
 
 try {
@@ -52,11 +52,20 @@ taskForm.addEventListener("submit", function (event) {
 
     editingIndex = null;
     taskForm.querySelector('[type="submit"]').textContent = "Add Task";
+    cancelEditButton.hidden = true;
   }
 
   saveTasks();
   taskForm.reset();
   displayTasks();
+});
+
+cancelEditButton.addEventListener("click", function () {
+  editingIndex = null;
+  taskForm.reset();
+
+  taskForm.querySelector('[type="submit"]').textContent = "Add Task";
+  cancelEditButton.hidden = true;
 });
 
 function saveTasks() {
@@ -179,7 +188,10 @@ function displayTasks() {
       document.getElementById("taskPriority").value = task.priority || "medium";
 
       editingIndex = index;
+
       taskForm.querySelector('[type="submit"]').textContent = "Update Task";
+
+      cancelEditButton.hidden = false;
     });
 
     const deleteButton = document.createElement("button");

@@ -255,3 +255,60 @@ button {
   font-size: 16px;
   line-height: 1.4;
 }
+
+/* Task sorting controls */
+.sort-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 20px 0;
+  padding: 14px 16px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 122px;
+}
+
+.sort-controls label {
+  margin: 0;
+  color: #334155;
+  font-size: 14px;
+  font-weight: 12px;
+}
+
+.sort-controls select {
+  width: auto;
+  min-width: 190px;
+  margin: 0;
+  padding: 10px 36px 10px 12px;
+  color: #1e293b;
+  background-color: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font: inherit;
+  font-size: 14px;
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.sort-controls select:hover {
+  border: color #4f4635;
+}
+
+.sort-controls select:focus {
+  outline: none;
+  border-color: #4f46e5;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+}
+
+@media (max-width: 480px) {
+  .sort-controls {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .sort-controls select {
+    width: 100%;
+    min-width: 0;
+  }
+}

@@ -154,32 +154,50 @@ function displayTasks() {
     const index = item.index;
 
     const listItem = document.createElement("li");
+    listItem.className = "task-card";
 
-    const taskText = document.createElement("span");
-    const status = getDeadlineStatus(task);
-    taskText.textContent =
-      task.name +
-      " - Priority: " +
-      (task.priority || "medium").toUpperCase() +
-      " - Deadline: " +
-      task.deadline +
-      " - " +
-      status;
+    const taskInfo = document.createElement("div");
+    taskInfo.className = "task-info";
+
+    const taskName = document.createElement("h3");
+    taskName.className = "task-name";
+    taskName.textContent = task.name;
+
     if (task.completed) {
-      taskText.style.textDecoration = "line-through";
-      taskText.style.color = "gray";
+      taskName.classList.add("completed-task");
     }
 
-    const completeButton = document.createElement("button");
-    completeButton.textContent = task.completed ? "Undo" : "Complete";
+    const taskDetails = document.createElement("div");
+    taskDetails.className = "task-details";
 
-    completeButton.addEventListener("click", function () {
-      task.completed = !task.completed;
-      saveTasks();
-      displayTasks();
-    });
+    const priorityBadge = document.createElement("span");
+    const priority = (task.priority || "medium").toLowerCase();
+    priorityBadge.className = "priority-badge priority-" + priority;
+    priorityBadge.textContent = priority.toUpperCase();
+
+    const deadlineText = document.createElement("span");
+    deadlineText.className = "task-deadline";
+    deadlineText.textContent = "Deadline: " + task.deadline;
+
+    const statusBadge = document.createElement("span");
+    const status = getDeadlineStatus(task);
+    statusBadge.className =
+      "status-badge status-" + status.toLowerCase().replaceAll(" ", "-");
+    statusBadge.textContent = status;
+
+    taskDetails.appendChild(priorityBadge);
+    taskDetails.appendChild(deadlineText);
+    taskDetails.appendChild(statusBadge);
+
+    taskInfo.appendChild(taskName);
+    taskInfo.appendChild(taskDetails);
+
+    const taskActions = document.createElement("div");
+    taskActions.className = "task-actions";
 
     const editButton = document.createElement("button");
+    editButton.type = "button";
+    editButton.className = "edit-button";
     editButton.textContent = "Edit";
 
     editButton.addEventListener("click", function () {
@@ -188,13 +206,24 @@ function displayTasks() {
       document.getElementById("taskPriority").value = task.priority || "medium";
 
       editingIndex = index;
-
       taskForm.querySelector('[type="submit"]').textContent = "Update Task";
-
       cancelEditButton.hidden = false;
     });
 
+    const completeButton = document.createElement("button");
+    completeButton.type = "button";
+    completeButton.className = "complete-button";
+    completeButton.textContent = task.completed ? "Undo" : "Complete";
+
+    completeButton.addEventListener("click", function () {
+      task.completed = !task.completed;
+      saveTasks();
+      displayTasks();
+    });
+
     const deleteButton = document.createElement("button");
+    deleteButton.type = "button";
+    deleteButton.className = "delete-button";
     deleteButton.textContent = "Delete";
 
     deleteButton.addEventListener("click", function () {
@@ -203,11 +232,12 @@ function displayTasks() {
       displayTasks();
     });
 
-    listItem.appendChild(taskText);
-    listItem.appendChild(editButton);
-    listItem.appendChild(completeButton);
-    listItem.appendChild(deleteButton);
+    taskActions.appendChild(editButton);
+    taskActions.appendChild(completeButton);
+    taskActions.appendChild(deleteButton);
 
+    listItem.appendChild(taskInfo);
+    listItem.appendChild(taskActions);
     taskList.appendChild(listItem);
   });
 }

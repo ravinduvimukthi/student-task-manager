@@ -2,8 +2,19 @@ const taskForm = document.getElementById("taskForm");
 const taskList = document.getElementById("tasks");
 const searchInput = document.getElementById("searchInput");
 
-let tasks = JSON.parse(localStorage.getItem("studentTasks")) || [];
+let tasks = [];
 
+try {
+  const savedTasks = localStorage.getItem("studentTasks");
+  tasks = savedTasks ? JSON.parse(savedTasks) : [];
+
+  if (!Array.isArray(tasks)) {
+    tasks = [];
+  }
+} catch (error) {
+  console.error("Could not load saved tasks:", error);
+  tasks = [];
+}
 let currentSort = "default";
 let currentFilter = "all";
 let editingIndex = null;
@@ -16,6 +27,8 @@ taskForm.addEventListener("submit", function (event) {
 
   const taskName = taskInput.value.trim();
   const deadline = taskDate.value;
+  const taskPriority = document.getElementById("taskPriority");
+  const priority = taskPriority.value;
 
   if (taskName === "" || deadline === "") {
     return;
@@ -24,6 +37,7 @@ taskForm.addEventListener("submit", function (event) {
   const task = {
     name: taskName,
     deadline: deadline,
+    priority: priority,
     completed: false,
   };
 
@@ -34,6 +48,7 @@ taskForm.addEventListener("submit", function (event) {
     // Update an existing task
     tasks[editingIndex].name = taskName;
     tasks[editingIndex].deadline = deadline;
+    tasks[editingIndex].priority = priority;
 
     editingIndex = null;
     taskForm.querySelector('[type="submit"]').textContent = "Add Task";
@@ -115,8 +130,9 @@ function displayTasks() {
           low: 3,
         };
 
-        const priorityA = priorityOrder[a.task.priority?.toLowerCase()] || 4;
-        const priorityB = priorityOrder[b.task.priority?.toLowerCase()] || 4;
+        const priorityA = priorityOrder[a.task.priority?.toLowerCase()] ?? 4;
+
+        const priorityB = priorityOrder[b.task.priority?.toLowerCase()] ?? 4;
 
         return priorityA - priorityB;
       }
@@ -133,8 +149,13 @@ function displayTasks() {
     const taskText = document.createElement("span");
     const status = getDeadlineStatus(task);
     taskText.textContent =
-      task.name + " - Deadline: " + task.deadline + " - " + status;
-
+      task.name +
+      " - Priority: " +
+      (task.priority || "medium").toUpperCase() +
+      " - Deadline: " +
+      task.deadline +
+      " - " +
+      status;
     if (task.completed) {
       taskText.style.textDecoration = "line-through";
       taskText.style.color = "gray";
@@ -155,6 +176,7 @@ function displayTasks() {
     editButton.addEventListener("click", function () {
       document.getElementById("taskInput").value = task.name;
       document.getElementById("taskDate").value = task.deadline;
+      document.getElementById("taskPriority").value = task.priority || "medium";
 
       editingIndex = index;
       taskForm.querySelector('[type="submit"]').textContent = "Update Task";

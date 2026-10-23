@@ -83,7 +83,6 @@ screenshots/
 └── task-manager.png
 ```
 
-After adding the screenshot file, display it with:
 
 ```markdown
 ![Student Task Manager Screenshot](screenshots/task-manager.png)

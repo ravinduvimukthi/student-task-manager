@@ -76,29 +76,9 @@ Local Storage is browser-specific and is not a cloud backup or account-based syn
 
 ## Screenshots
 
-Add a screenshot of your application here.
-
-```text
-screenshots/
-└── task-manager.png
-```
-
 ```markdown
 ![Student Task Manager Screenshot](screenshots/task-manager.png)
 ```
-
-## What I Learned
-
-Through this project, I practiced:
-
-- Manipulating the DOM with JavaScript.
-- Handling form submissions and button events.
-- Working with arrays and objects.
-- Implementing search, filtering, and sorting.
-- Managing task data using unique IDs.
-- Persisting data with Local Storage.
-- Creating responsive layouts with CSS.
-- Using Git and GitHub to manage a project.
 
 ## Future Improvements
 

@@ -484,3 +484,14 @@ button {
   border-color: #4f46e5;
   box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
 }
+
+.empty-state {
+  padding: 28px 18px;
+  text-align: center;
+  color: #64748b;
+  background: #f8fafc;
+  border: 1px dashed #cbd5e1;
+  border-radius: 12px;
+  font-size: 14px;
+  line-height: 1.6;
+}

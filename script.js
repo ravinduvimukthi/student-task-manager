@@ -11,13 +11,24 @@ try {
   if (!Array.isArray(tasks)) {
     tasks = [];
   }
+
+  tasks = tasks.map(function (task) {
+    if (!task.id) {
+      task.id = crypto.randomUUID();
+    }
+
+    return task;
+  });
+
+  localStorage.setItem("studentTasks", JSON.stringify(tasks));
 } catch (error) {
   console.error("Could not load saved tasks:", error);
   tasks = [];
 }
+
 let currentSort = "default";
 let currentFilter = "all";
-let editingIndex = null;
+let editingTaskId = null;
 
 taskForm.addEventListener("submit", function (event) {
   event.preventDefault();
@@ -35,22 +46,27 @@ taskForm.addEventListener("submit", function (event) {
   }
 
   const task = {
+    id: crypto.randomUUID(),
     name: taskName,
     deadline: deadline,
     priority: priority,
     completed: false,
   };
 
-  if (editingIndex === null) {
-    // Add a new task
+  if (editingTaskId === null) {
     tasks.push(task);
   } else {
-    // Update an existing task
-    tasks[editingIndex].name = taskName;
-    tasks[editingIndex].deadline = deadline;
-    tasks[editingIndex].priority = priority;
+    const taskToUpdate = tasks.find(function (item) {
+      return item.id === editingTaskId;
+    });
 
-    editingIndex = null;
+    if (taskToUpdate) {
+      taskToUpdate.name = taskName;
+      taskToUpdate.deadline = deadline;
+      taskToUpdate.priority = priority;
+    }
+
+    editingTaskId = null;
     taskForm.querySelector('[type="submit"]').textContent = "Add Task";
     cancelEditButton.hidden = true;
   }
@@ -61,7 +77,7 @@ taskForm.addEventListener("submit", function (event) {
 });
 
 cancelEditButton.addEventListener("click", function () {
-  editingIndex = null;
+  editingTaskId = null;
   taskForm.reset();
 
   taskForm.querySelector('[type="submit"]').textContent = "Add Task";
@@ -149,6 +165,28 @@ function displayTasks() {
       return a.index - b.index;
     });
 
+  if (filteredTasks.length === 0) {
+    const emptyMessage = document.createElement("li");
+    emptyMessage.className = "empty-state";
+
+    if (tasks.length === 0) {
+      emptyMessage.textContent =
+        "You haven't added any tasks yet. Add your first task to get started!";
+    } else if (searchText !== "") {
+      emptyMessage.textContent =
+        "No tasks match your search. Try another keyword.";
+    } else if (currentFilter === "pending") {
+      emptyMessage.textContent = "No pending tasks found.";
+    } else if (currentFilter === "completed") {
+      emptyMessage.textContent = "No completed tasks yet.";
+    } else {
+      emptyMessage.textContent = "No tasks found.";
+    }
+
+    taskList.appendChild(emptyMessage);
+    return;
+  }
+
   filteredTasks.forEach(function (item) {
     const task = item.task;
     const index = item.index;
@@ -205,7 +243,7 @@ function displayTasks() {
       document.getElementById("taskDate").value = task.deadline;
       document.getElementById("taskPriority").value = task.priority || "medium";
 
-      editingIndex = index;
+      editingTaskId = task.id;
       taskForm.querySelector('[type="submit"]').textContent = "Update Task";
       cancelEditButton.hidden = false;
     });
@@ -227,7 +265,17 @@ function displayTasks() {
     deleteButton.textContent = "Delete";
 
     deleteButton.addEventListener("click", function () {
-      tasks.splice(index, 1);
+      tasks = tasks.filter(function (item) {
+        return item.id !== task.id;
+      });
+
+      if (editingTaskId === task.id) {
+        editingTaskId = null;
+        taskForm.reset();
+        taskForm.querySelector('[type="submit"]').textContent = "Add Task";
+        cancelEditButton.hidden = true;
+      }
+
       saveTasks();
       displayTasks();
     });

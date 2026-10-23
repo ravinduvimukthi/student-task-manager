@@ -83,7 +83,6 @@ screenshots/
 └── task-manager.png
 ```
 
-
 ```markdown
 ![Student Task Manager Screenshot](screenshots/task-manager.png)
 ```

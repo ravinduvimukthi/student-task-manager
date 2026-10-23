@@ -74,11 +74,9 @@ The application uses browser Local Storage to save tasks under the `studentTasks
 
 Local Storage is browser-specific and is not a cloud backup or account-based synchronization system.
 
-## Screenshots
+## Screenshot
 
-```markdown
-![Student Task Manager Screenshot](screenshots/task-manager.png)
-```
+![Student Task Manager](screenshots/task-manager.png)
 
 ## Future Improvements
 
